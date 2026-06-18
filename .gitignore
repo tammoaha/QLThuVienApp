@@ -1,0 +1,29 @@
+# Build output
+bin/
+obj/
+build-check/
+build-check2/
+
+# Visual Studio user/cache files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider/ReSharper
+_ReSharper*/
+*.DotSettings.user
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# SQL Server local files
+*.mdf
+*.ldf
+
+# OS files
+Thumbs.db
+Desktop.ini
