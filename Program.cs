@@ -18,7 +18,7 @@ namespace QLThuVienApp
             {
                 if (login.ShowDialog() == DialogResult.OK)
                 {
-                    Application.Run(new FrmMain(login.MaThuThu, login.HoTenThuThu));
+                    Application.Run(new FrmMain(login.MaThuThu, login.HoTenThuThu, login.QuyenThuThu));
                 }
                 // Nếu đóng/huỷ đăng nhập -> chương trình kết thúc.
             }

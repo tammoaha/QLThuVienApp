@@ -38,7 +38,9 @@ CREATE TABLE tblThuThu (
     MaThuThu    INT AUTO_INCREMENT PRIMARY KEY,
     HoTen       VARCHAR(100) NOT NULL,
     TenDangNhap VARCHAR(50)  NOT NULL UNIQUE,
-    MatKhau     VARCHAR(100) NOT NULL
+    MatKhau     VARCHAR(100) NOT NULL,
+    Quyen       VARCHAR(20)  NOT NULL DEFAULT 'ThuThu',
+    CONSTRAINT CK_ThuThu_Quyen CHECK (Quyen IN ('Admin', 'ThuThu', 'TroLy'))
 );
 
 /* 1.5 Phiếu mượn  */
@@ -139,18 +141,21 @@ END //
 /* ----- Thủ thư ----- */
 CREATE PROCEDURE sp_ThuThu_Them(
     IN p_HoTen VARCHAR(100), IN p_TenDangNhap VARCHAR(50),
-    IN p_MatKhau VARCHAR(100))
+    IN p_MatKhau VARCHAR(100), IN p_Quyen VARCHAR(20))
 BEGIN
-    INSERT INTO tblThuThu(HoTen, TenDangNhap, MatKhau)
-    VALUES (p_HoTen, p_TenDangNhap, p_MatKhau);
+    INSERT INTO tblThuThu(HoTen, TenDangNhap, MatKhau, Quyen)
+    VALUES (p_HoTen, p_TenDangNhap, p_MatKhau, p_Quyen);
 END //
 
 CREATE PROCEDURE sp_ThuThu_Sua(
     IN p_MaThuThu INT, IN p_HoTen VARCHAR(100), IN p_TenDangNhap VARCHAR(50),
-    IN p_MatKhau VARCHAR(100))
+    IN p_MatKhau VARCHAR(100), IN p_Quyen VARCHAR(20))
 BEGIN
     UPDATE tblThuThu
-    SET HoTen = p_HoTen, TenDangNhap = p_TenDangNhap, MatKhau = p_MatKhau
+    SET HoTen = p_HoTen,
+        TenDangNhap = p_TenDangNhap,
+        MatKhau = IFNULL(NULLIF(p_MatKhau, ''), MatKhau),
+        Quyen = p_Quyen
     WHERE MaThuThu = p_MaThuThu;
 END //
 
@@ -274,5 +279,6 @@ INSERT INTO tblSinhVien(HoTen, Lop) VALUES
 ('Nguyễn Văn An',  'CNTT01'),
 ('Trần Thị Bình',  'CNTT02');
 
-INSERT INTO tblThuThu(HoTen, TenDangNhap, MatKhau) VALUES
-('Lê Quản Trị', 'admin', '123456');
+INSERT INTO tblThuThu(HoTen, TenDangNhap, MatKhau, Quyen) VALUES
+('Lê Quản Trị', 'admin', '123456', 'Admin'),
+('Trợ lý thủ thư', 'troly', '123456', 'TroLy');

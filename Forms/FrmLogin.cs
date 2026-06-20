@@ -17,6 +17,7 @@ namespace QLThuVienApp.Forms
         // Thông tin trả ra cho Program sau khi đăng nhập thành công
         public string HoTenThuThu { get; private set; }
         public int MaThuThu { get; private set; }
+        public string QuyenThuThu { get; private set; }
 
         public FrmLogin()
         {
@@ -85,6 +86,7 @@ namespace QLThuVienApp.Forms
 
                 MaThuThu = Convert.ToInt32(row["MaThuThu"]);
                 HoTenThuThu = row["HoTen"].ToString();
+                QuyenThuThu = row["Quyen"].ToString();
                 DialogResult = DialogResult.OK;
                 Close();
             }

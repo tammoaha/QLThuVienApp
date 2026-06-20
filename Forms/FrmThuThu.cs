@@ -44,7 +44,7 @@ namespace QLThuVienApp.Forms
                 Size = new Size(240, 23),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
-            cboQuyen.Items.AddRange(new object[] { "ThuThu", "Admin" });
+            cboQuyen.Items.AddRange(new object[] { "ThuThu", "TroLy", "Admin" });
             cboQuyen.SelectedIndex = 0;
 
             btnThem = new Button { Text = "Th&em", Location = new Point(375, 45), Size = new Size(85, 28) };

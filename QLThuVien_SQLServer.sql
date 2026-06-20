@@ -45,7 +45,7 @@ CREATE TABLE dbo.tblThuThu
     TenDangNhap NVARCHAR(50) NOT NULL CONSTRAINT UQ_tblThuThu_TenDangNhap UNIQUE,
     MatKhau     NVARCHAR(100) NOT NULL,
     Quyen       NVARCHAR(20) NOT NULL CONSTRAINT DF_tblThuThu_Quyen DEFAULT N'ThuThu',
-    CONSTRAINT CK_tblThuThu_Quyen CHECK (Quyen IN (N'Admin', N'ThuThu'))
+    CONSTRAINT CK_tblThuThu_Quyen CHECK (Quyen IN (N'Admin', N'ThuThu', N'TroLy'))
 );
 
 CREATE TABLE dbo.tblPhieuMuon
@@ -339,5 +339,6 @@ INSERT INTO dbo.tblSinhVien(HoTen, Lop) VALUES
 (N'Tran Thi Binh', N'CNTT02');
 
 INSERT INTO dbo.tblThuThu(HoTen, TenDangNhap, MatKhau, Quyen) VALUES
-(N'Le Quan Tri', N'admin', N'123456', N'Admin');
+(N'Le Quan Tri', N'admin', N'123456', N'Admin'),
+(N'Tro Ly Thu Thu', N'troly', N'123456', N'TroLy');
 GO

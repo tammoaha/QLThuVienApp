@@ -9,19 +9,21 @@ namespace QLThuVienApp.Forms
     {
         private readonly int _maThuThu;
         private readonly string _hoTen;
+        private readonly string _quyen;
         private StatusStrip statusStrip;
         private ToolStripStatusLabel lblStatus;
 
-        public FrmMain(int maThuThu, string hoTen)
+        public FrmMain(int maThuThu, string hoTen, string quyen)
         {
             _maThuThu = maThuThu;
             _hoTen = hoTen;
+            _quyen = quyen;
             BuildUi();
         }
 
         private void BuildUi()
         {
-            Text = "Phần mềm Quản lý Thư viện";
+            Text = "Phan mem Quan ly Thu vien";
             WindowState = FormWindowState.Maximized;
             IsMdiContainer = true;
             Font = new Font("Segoe UI", 9F);
@@ -30,29 +32,25 @@ namespace QLThuVienApp.Forms
             BuildStatusBar();
         }
 
-        // ============ MENU ============
         private void BuildMenu()
         {
             var menu = new MenuStrip();
 
-            // --- Danh mục ---
-            var mnuDanhMuc = new ToolStripMenuItem("&Danh mục");
-            mnuDanhMuc.DropDownItems.Add(NewItem("Quản lý &Sách", Keys.Control | Keys.S, () => Open<FrmSach>()));
-            mnuDanhMuc.DropDownItems.Add(NewItem("Quản lý &Thể loại", Keys.Control | Keys.T, () => Open<FrmTheLoai>()));
-            mnuDanhMuc.DropDownItems.Add(NewItem("Quản lý S&inh viên", Keys.Control | Keys.V, () => Open<FrmSinhVien>()));
-            mnuDanhMuc.DropDownItems.Add(NewItem("Quản lý Thủ thư", Keys.None, () => Open<FrmThuThu>()));
+            var mnuDanhMuc = new ToolStripMenuItem("&Danh muc");
+            mnuDanhMuc.DropDownItems.Add(NewItem("Quan ly &Sach", Keys.Control | Keys.S, () => Open<FrmSach>()));
+            mnuDanhMuc.DropDownItems.Add(NewItem("Quan ly &The loai", Keys.Control | Keys.T, () => Open<FrmTheLoai>()));
+            mnuDanhMuc.DropDownItems.Add(NewItem("Quan ly S&inh vien", Keys.Control | Keys.V, () => Open<FrmSinhVien>()));
+            mnuDanhMuc.DropDownItems.Add(NewItem("Quan ly Thu thu", Keys.None, OpenThuThu));
 
-            // --- Mượn / Trả ---
-            var mnuMuonTra = new ToolStripMenuItem("&Mượn / Trả");
-            mnuMuonTra.DropDownItems.Add(NewItem("Lập phiếu &mượn / trả sách", Keys.Control | Keys.M, OpenMuonTra));
+            var mnuMuonTra = new ToolStripMenuItem("&Muon / Tra");
+            mnuMuonTra.DropDownItems.Add(NewItem("Lap phieu &muon / tra sach", Keys.Control | Keys.M, OpenMuonTra));
 
-            // --- Báo cáo ---
-            var mnuBaoCao = new ToolStripMenuItem("&Báo cáo");
-            mnuBaoCao.DropDownItems.Add(NewItem("Thống kê đầu sách / phiếu chưa trả", Keys.Control | Keys.B, () => Open<FrmBaoCao>()));
+            var mnuBaoCao = new ToolStripMenuItem("&Bao cao");
+            mnuBaoCao.DropDownItems.Add(NewItem("Thong ke dau sach / phieu chua tra", Keys.Control | Keys.B, () => Open<FrmBaoCao>()));
 
             menu.Items.AddRange(new ToolStripItem[]
             {
-               mnuDanhMuc, mnuMuonTra, mnuBaoCao
+                mnuDanhMuc, mnuMuonTra, mnuBaoCao
             });
 
             MainMenuStrip = menu;
@@ -66,16 +64,14 @@ namespace QLThuVienApp.Forms
             return item;
         }
 
-        // ============ STATUS BAR ============
         private void BuildStatusBar()
         {
             statusStrip = new StatusStrip();
-            lblStatus = new ToolStripStatusLabel($"Đăng nhập: {_hoTen}");
+            lblStatus = new ToolStripStatusLabel($"Dang nhap: {_hoTen} - Quyen: {_quyen}");
             statusStrip.Items.Add(lblStatus);
             Controls.Add(statusStrip);
         }
 
-        // ============ MỞ FORM CON (mỗi loại chỉ 1 cửa sổ) ============
         private void Open<T>() where T : Form, new()
         {
             var existing = MdiChildren.FirstOrDefault(f => f is T);
@@ -90,14 +86,25 @@ namespace QLThuVienApp.Forms
             var existing = MdiChildren.FirstOrDefault(f => f is FrmMuonTra);
             if (existing != null) { existing.Activate(); return; }
 
-            // Form mượn/trả cần biết thủ thư đang đăng nhập để ghi vào phiếu
             var f = new FrmMuonTra(_maThuThu) { MdiParent = this };
             f.Show();
         }
 
+        private void OpenThuThu()
+        {
+            if (string.Equals(_quyen, "TroLy", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Tro ly thu thu khong co quyen tao, them, sua tai khoan.",
+                    "Khong du quyen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Open<FrmThuThu>();
+        }
+
         private void DangXuat()
         {
-            if (MessageBox.Show("Đăng xuất và thoát chương trình?", "Xác nhận",
+            if (MessageBox.Show("Dang xuat va thoat chuong trinh?", "Xac nhan",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Application.Exit();

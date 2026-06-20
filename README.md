@@ -69,6 +69,16 @@ Ten dang nhap: admin
 Mat khau: 123456
 ```
 
+Tai khoan tro ly thu thu de kiem tra phan quyen:
+
+```text
+Ten dang nhap: troly
+Mat khau: 123456
+Quyen: TroLy
+```
+
+Quyen `TroLy` khong duoc tao, them, sua tai khoan thu thu.
+
 ## Loi thuong gap
 
 ### Keyword not supported: 'port'
