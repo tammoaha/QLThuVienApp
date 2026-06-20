@@ -60,8 +60,11 @@ Neu dang nhap bang tai khoan SQL Server, vi du `sa`:
 ## Chay ung dung
 
 1. Mo `QLThuVienApp.csproj` bang Visual Studio.
-2. Chon `Build > Rebuild Solution`.
-3. Bam `F5` de chay.
+2. Chon `Build > Rebuild Solution`. hoac vao thư mục chứa:
+QLThuVienApp.csproj
+Program.cs
+-chay cmd dotnet build 
+3. Bam `F5` de chay.hoac chay file QLThuVienApp.exe
 4. Dang nhap bang tai khoan mau:
 
 ```text
